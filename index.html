@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChocoTradición - El Arte del Chocolate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados y configuración de Tailwind */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .active-link {
+            border-bottom: 2px solid #A0522D;
+            color: #A0522D;
+            font-weight: 600;
+        }
+        .nav-link {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .ai-thinking-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .ai-thinking-dot:nth-child(1) { animation-delay: -0.32s; }
+        .ai-thinking-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
+        /* Estilos para secciones de pantalla completa */
+        .full-screen-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        /* Animaciones de entrada */
+        .scroll-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Tema Oscuro para Línea Premium */
+        body.dark-mode {
+            background-color: #3E2723; /* Café Oscuro Sólido */
+            color: #FBF8F3;
+        }
+        .dark-mode header {
+            background-color: #3E2723;
+            box-shadow: 0 4px 6px -1px rgba(251, 248, 243, 0.1), 0 2px 4px -2px rgba(251, 248, 243, 0.1);
+        }
+        .dark-mode .text-\[\#6D4C41\] {
+             color: #FBF8F3 !important;
+        }
+        .dark-mode .nav-link {
+            color: #D7CCC8;
+        }
+        .dark-mode .active-link {
+            color: #FBF8F3;
+            border-bottom-color: #FBF8F3;
+        }
+        .dark-mode .text-gray-600, .dark-mode .text-gray-700 {
+            color: #D7CCC8;
+        }
+        .dark-mode .bg-white {
+            background-color: #4E342E;
+        }
+        .dark-mode .shadow-inner {
+             box-shadow: inset 0 2px 4px 0 rgba(0,0,0, 0.2);
+        }
+         .dark-mode .text-\[\#A0522D\] {
+            color: #FDF5E6;
+        }
+        .dark-mode #premium-bg-image {
+            transition: opacity 0.5s ease-out;
+        }
+
+        /* Custom Slider Styles */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -8px; 
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+        }
+        
+        /* AI Section Transitions */
+        #ai-form-container, #ai-result-container {
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .ai-fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="bg-[#FBF8F3] text-[#4E342E]">
+
+    <!-- Encabezado y Navegación -->
+    <header class="bg-[#FBF8F3] sticky top-0 z-50 shadow-sm transition-colors duration-500">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="text-xl sm:text-2xl font-bold font-serif text-[#6D4C41] cursor-pointer">
+                ChocoTradición
+            </a>
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="nav-link active-link">Sobre Nosotros</a>
+                <a href="#tradicional" onclick="showPage('tradicional')" class="nav-link">Línea Tradicional</a>
+                <a href="#premium" onclick="showPage('premium')" class="nav-link">Línea Premium y Artesanal</a>
+                <a href="#reto" onclick="showPage('reto')" class="nav-link">Solución al Reto</a>
+            </div>
+            <div class="lg:hidden">
+                <select onchange="showPage(this.value)" class="bg-transparent border border-gray-300 rounded-md p-2 text-sm">
+                    <option value="sobre-nosotros">Sobre Nosotros</option>
+                    <option value="tradicional">Línea Tradicional</option>
+                    <option value="premium">Línea Premium y Artesanal</option>
+                    <option value="reto">Solución al Reto</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto">
+        <!-- PÁGINA 0: SOBRE NOSOTROS (Landing Page Principal) -->
+        <div id="sobre-nosotros" class="page-content">
+             <section class="full-screen-section text-center px-4">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">Más que Chocolate, una Herencia</h1>
+                <p class="max-w-3xl mx-auto text-lg sm:text-xl text-gray-600 mb-8 scroll-fade-in" style="transition-delay: 200ms;">
+                    Desde 1950, en el corazón de Manizales, Colombia, ChocoTradición ha sido el guardián de un legado familiar: transformar el mejor cacao del mundo en experiencias inolvidables.
+                </p>
+            </section>
+
+            <section class="py-16 sm:py-24 grid md:grid-cols-2 gap-8 md:gap-16 items-center px-4 sm:px-6">
+                <div class="space-y-6 scroll-fade-in">
+                    <h2 class="text-3xl sm:text-4xl font-serif text-[#6D4C41]">Nuestra Trayectoria</h2>
+                    <p class="text-gray-700 text-base sm:text-lg">Lo que comenzó como un pequeño sueño en la cocina de nuestros abuelos, se ha convertido en una empresa que celebra la riqueza de nuestra tierra. Hemos crecido, pero nuestra esencia permanece intacta: el amor por el proceso artesanal y el compromiso con la calidad.</p>
+                    <p class="text-gray-700 text-base sm:text-lg">Hoy, combinamos esa herencia con la innovación, explorando nuevas técnicas y sabores para sorprender a una nueva generación de amantes del chocolate, sin olvidar jamás las recetas que nos trajeron hasta aquí.</p>
+                </div>
+                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 scroll-fade-in" style="transition-delay: 200ms;">
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <h3 class="font-serif text-2xl sm:text-3xl text-[#A0522D] mb-3">Misión</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Crear chocolates excepcionales que conecten a las personas con la riqueza del cacao colombiano, honrando nuestra tradición artesanal y promoviendo un futuro sostenible.</p>
+                    </div>
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <h3 class="font-serif text-2xl sm:text-3xl text-[#A0522D] mb-3">Visión</h3>
+                        <p class="text-gray-600 text-sm sm:text-base">Ser reconocidos a nivel mundial como un símbolo de la chocolatería colombiana, fusionando la herencia artesanal con la innovación.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="py-16 sm:py-24 bg-white grid md:grid-cols-2 gap-8 md:gap-16 items-center px-4 sm:px-6 rounded-lg shadow-inner">
+                <div class="scroll-fade-in">
+                    <img src="https://solidaridadlatam.org/wp-content/uploads/2023/07/Inventario-Ingreso-Digno-Cacao-en-Latam.-Plan-Cacao-Nestle-Ecuador.jpg" alt="Relación con agricultores" class="w-full h-auto object-cover rounded-lg shadow-xl">
+                </div>
+                <div class="space-y-6 scroll-fade-in" style="transition-delay: 200ms;">
+                     <h2 class="text-3xl sm:text-4xl font-serif text-[#6D4C41]">Del Cacao al Corazón: Nuestra Alianza con los Agricultores</h2>
+                    <p class="text-gray-700 text-base sm:text-lg">Nuestra historia no se puede contar sin hablar de las manos que cultivan nuestro tesoro más preciado. Cada grano de cacao que utilizamos es fruto del trabajo de agricultores locales, con quienes hemos forjado lazos de confianza, respeto y comercio justo a lo largo de generaciones.</p>
+                    <p class="text-gray-700 text-base sm:text-lg">Esta alianza va más allá de lo comercial; es un compromiso con la sostenibilidad, con la preservación de técnicas agrícolas ancestrales y con el bienestar de las comunidades que hacen posible la magia de ChocoTradición.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- PÁGINA 1: LÍNEA TRADICIONAL -->
+        <div id="tradicional" class="page-content hidden px-4 sm:px-6 py-12">
+            <section class="text-center py-12 sm:py-16">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">El Sabor que nos Une</h1>
+                <p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-600 scroll-fade-in" style="transition-delay: 200ms;">
+                    Nuestra línea tradicional combina recetas heredadas con ingredientes de la más alta calidad, creando chocolates que evocan recuerdos y construyen nuevos momentos.
+                </p>
+            </section>
+
+            <section class="py-16 space-y-16 sm:space-y-24">
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                    <div class="scroll-fade-in text-center md:text-left">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Clásico de la Finca</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-8">Puro cacao al 70% con notas frutales. La esencia de nuestro origen en una tableta intensa y memorable que captura el alma de los Andes colombianos.</p>
+                        <button class="bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Más Información</button>
+                    </div>
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center hover:shadow-2xl transition-shadow duration-300 scroll-fade-in" style="transition-delay: 100ms;">
+                        <img src="https://placehold.co/500x350/8B4513/FFFFFF?text=Clásico+de+la+Finca" alt="Clásico de la Finca" class="mx-auto rounded-lg">
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center hover:shadow-2xl transition-shadow duration-300 scroll-fade-in md:order-2">
+                        <img src="https://placehold.co/500x350/D2691E/FFFFFF?text=Tesoro+de+Leche" alt="Tesoro de Leche" class="mx-auto rounded-lg">
+                    </div>
+                    <div class="scroll-fade-in md:order-1 text-center md:text-left" style="transition-delay: 100ms;">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Tesoro de Leche</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-8">Un chocolate con leche increíblemente cremoso y suave. El abrazo perfecto para una tarde de café y buenos recuerdos.</p>
+                        <button class="bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Más Información</button>
+                    </div>
+                </div>
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                    <div class="scroll-fade-in text-center md:text-left">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Nibs de Café de Origen</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-8">La combinación perfecta entre el chocolate oscuro y el crujiente café de Manizales. Una explosión de sabor y energía.</p>
+                        <button class="bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Más Información</button>
+                    </div>
+                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center hover:shadow-2xl transition-shadow duration-300 scroll-fade-in" style="transition-delay: 100ms;">
+                        <img src="https://placehold.co/500x350/6D4C41/FFFFFF?text=Nibs+de+Café" alt="Nibs de Café de Origen" class="mx-auto rounded-lg">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PÁGINA 2: LÍNEA PREMIUM Y ARTESANAL -->
+        <div id="premium" class="page-content hidden">
+            <div class="relative">
+                <div id="premium-bg-image" class="fixed top-0 left-0 w-full h-full bg-cover bg-center -z-10" style="background-image: url('https://perfectdailygrind.com/es/wp-content/uploads/sites/2/2019/11/Article-12.jpg');">
+                    <div class="absolute inset-0 bg-black/60"></div>
+                </div>
+                
+                <section class="full-screen-section text-center text-white relative px-4">
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif mb-4 scroll-fade-in">Línea Premium y Artesanal</h1>
+                    <p class="max-w-3xl mx-auto text-lg sm:text-xl text-gray-200 mb-8 scroll-fade-in" style="transition-delay: 200ms;">
+                        Un tributo a la creatividad y al cacao más fino. Aquí, la maestría artesanal y la innovación se unen para crear joyas de chocolate únicas.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#premium-products" class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Mirar Productos</a>
+                        <a href="#ai-creator" class="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-semibold hover:bg-white hover:text-black transition-colors text-base sm:text-lg">Crear mi Chocolate</a>
+                    </div>
+                </section>
+
+                <div id="premium-products" class="relative bg-transparent text-white space-y-16 sm:space-y-24 py-16 sm:py-24">
+                    <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
+                        <div class="w-full max-w-5xl mx-auto text-center">
+                            <h2 class="text-4xl sm:text-5xl font-serif mb-6">Lingote Dorado</h2>
+                            <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto mb-8">Chocolate blanco caramelizado con hebras de azafrán y un toque de sal Maldon. Una joya para los sentidos.</p>
+                            <button class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Conocer Más</button>
+                        </div>
+                    </div>
+                    <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
+                        <div class="w-full max-w-5xl mx-auto text-center">
+                            <h2 class="text-4xl sm:text-5xl font-serif mb-6">Corazón de Rubí</h2>
+                            <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto mb-8">Ganache sedosa de lulo y maracuyá, cubierta por el exótico chocolate Ruby al 47%. Pura pasión tropical.</p>
+                             <button class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Conocer Más</button>
+                        </div>
+                    </div>
+                    <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
+                        <div class="w-full max-w-5xl mx-auto text-center">
+                            <h2 class="text-4xl sm:text-5xl font-serif mb-6">Esfera Volcánica</h2>
+                            <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto mb-8">Intenso chocolate negro al 85% de origen único, con una sutil infusión de chile y cardamomo. Atrevido y sofisticado.</p>
+                             <button class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Conocer Más</button>
+                        </div>
+                    </div>
+                </div>
+            
+                <section id="ai-creator" class="min-h-screen flex items-center justify-center relative p-4 sm:p-8">
+                    <div class="w-full max-w-4xl mx-auto bg-black/50 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 border-2 border-white/20 scroll-fade-in">
+                        <div id="ai-form-container">
+                            <h2 class="text-3xl sm:text-4xl font-serif text-center mb-8">Diseña tu Chocolate con IA</h2>
+                            <form id="ai-chocolate-form" class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="base" class="block text-sm font-medium text-gray-300 mb-2">1. Elige la base:</label>
+                                        <select id="base" class="w-full p-3 bg-white/10 text-white border border-white/30 rounded-md focus:ring-white focus:border-white">
+                                            <option>Chocolate Negro 85% Origen Único</option>
+                                            <option>Chocolate con Leche de Almendras</option>
+                                            <option>Chocolate Blanco con Vainilla de Papantla</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="intensity" class="block text-sm font-medium text-gray-300 mb-2">Intensidad de Cacao: <span id="intensity-value">75</span>%</label>
+                                        <input type="range" id="intensity" min="50" max="100" value="75" class="w-full h-2 rounded-lg appearance-none cursor-pointer">
+                                    </div>
+                                    <div>
+                                        <label for="sweetness" class="block text-sm font-medium text-gray-300 mb-2">Nivel de Dulzura: <span id="sweetness-value">5</span>/10</label>
+                                        <input type="range" id="sweetness" min="1" max="10" value="5" class="w-full h-2 rounded-lg appearance-none cursor-pointer">
+                                    </div>
+                                     <div>
+                                        <label for="texture" class="block text-sm font-medium text-gray-300 mb-2">Textura: <span id="texture-value">Equilibrada</span></label>
+                                        <input type="range" id="texture" min="1" max="5" value="3" class="w-full h-2 rounded-lg appearance-none cursor-pointer">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">2. Selecciona hasta dos ingredientes:</label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
+                                            <input type="checkbox" name="topping" value="Pistachos Tostados" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Pistachos</span>
+                                        </label>
+                                         <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
+                                            <input type="checkbox" name="topping" value="Sal Rosa del Himalaya" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Sal Rosa</span>
+                                        </label>
+                                         <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
+                                            <input type="checkbox" name="topping" value="Nibs de Cacao Garapiñados" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Nibs de Cacao</span>
+                                        </label>
+                                         <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
+                                            <input type="checkbox" name="topping" value="Pétalos de Rosa Cristalizados" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Pétalos de Rosa</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                 <div>
+                                    <label for="specs" class="block text-sm font-medium text-gray-300 mb-2">3. Describe tu chocolate ideal (opcional):</label>
+                                    <textarea id="specs" rows="3" class="w-full p-3 bg-white/10 text-white border border-white/30 rounded-md focus:ring-white focus:border-white" placeholder="Ej: 'Quiero que sea picante, con un toque cítrico y muy crujiente'"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-white text-black py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-200 transition-colors text-base sm:text-lg">
+                                    Crear con IA
+                                </button>
+                            </form>
+                        </div>
+                        <div id="ai-result-container" class="hidden">
+                           <div id="ai-thinking" class="hidden flex-col items-center justify-center space-y-4">
+                                <p class="text-xl" id="thinking-text">Nuestra IA está diseñando tu obra maestra...</p>
+                                <div class="flex space-x-2 mt-4">
+                                    <div class="w-4 h-4 bg-[#FBF8F3] rounded-full ai-thinking-dot"></div>
+                                    <div class="w-4 h-4 bg-[#FBF8F3] rounded-full ai-thinking-dot"></div>
+                                    <div class="w-4 h-4 bg-[#FBF8F3] rounded-full ai-thinking-dot"></div>
+                                </div>
+                            </div>
+                            <div id="ai-result" class="hidden text-center">
+                                 <h3 class="text-3xl font-serif mb-6">¡Tu Creación Exclusiva!</h3>
+                                 <img id="result-img" src="https://placehold.co/400x300/FBF8F3/4E342E?text=Tu+Creación" alt="Tu chocolate personalizado" class="mx-auto rounded-lg shadow-lg mb-6">
+                                 <div id="result-details" class="text-left space-y-2 bg-black/20 p-6 rounded-md border border-white/20"></div>
+                                  <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
+                                    <button onclick="resetAI()" class="bg-transparent border-2 border-white/50 text-white/80 py-3 px-8 rounded-full hover:bg-white/10 transition-colors w-full sm:w-auto">Crear Otro</button>
+                                    <button class="bg-white text-black py-3 px-8 rounded-full font-semibold hover:bg-gray-200 transition-colors text-lg w-full sm:w-auto">Mandar a Hacer</button>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- PÁGINA 3: SOLUCIÓN AL RETO -->
+        <div id="reto" class="page-content hidden px-4 sm:px-6 py-12">
+            <section class="text-center py-12 sm:py-16">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">Renovación ChocoTradición</h1>
+                <p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-600 scroll-fade-in" style="transition-delay: 200ms;">
+                    Una propuesta de intraemprendimiento para transformar nuestro modelo de negocio, adaptándonos a la Industria 4.0 y a las nuevas demandas del mercado.
+                </p>
+            </section>
+            
+            <section class="max-w-5xl mx-auto space-y-16 sm:space-y-24 py-16">
+                 <div id="desafio" class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                    <div class="scroll-fade-in text-center md:text-left">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">El Desafío y Nuestra Propuesta</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-4"><strong class="font-semibold text-[#6D4C41]">Contexto:</strong> Ante la Industria 4.0, la presión competitiva y un consumidor cambiante, la renovación es una necesidad.</p>
+                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Estrategia:</strong> Bifurcamos nuestra línea en <span class="font-bold">consumo masivo</span> para competir en costo, y una <span class="font-bold">línea Premium artesanal</span> que capitaliza nuestra herencia y calidad.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in flex items-center justify-center h-48 sm:h-64" style="transition-delay: 100ms;">
+                        <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                    </div>
+                </div>
+
+                <div id="produccion" class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                    <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in md:order-2 flex items-center justify-center h-48 sm:h-64">
+                         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V18m0-15V5.25c0-1.104.896-2 2-2h3.375c1.104 0 2 .896 2 2V18m0-15.75l-3.75-1.5L8.25 3zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div class="scroll-fade-in md:order-1 text-center md:text-left" style="transition-delay: 100ms;">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Producción Inteligente</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Machine Learning:</strong> Usamos <span class="font-bold">Visual Inspection AI</span> para control de calidad y <span class="font-bold">sensores IoT</span> para mantenimiento predictivo, potenciando el talento de nuestros artesanos.</p>
+                    </div>
+                </div>
+                 <div id="experiencia" class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                    <div class="scroll-fade-in text-center md:text-left">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Experiencia del Cliente</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Interacción y Personalización:</strong> Esta web es nuestra ventana al mundo, permitiendo a los clientes co-crear su chocolate. Transformamos tiendas en espacios de "Experience Retailing".</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in flex items-center justify-center h-48 sm:h-64" style="transition-delay: 100ms;">
+                        <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25a8.967 8.967 0 00-6.313 2.659c-1.226 1.226-1.912 2.878-1.912 4.642 0 3.516 4.761 6.862 6.313 8.418 1.552-1.556 6.313-4.902 6.313-8.418 0-1.764-.686-3.416-1.912-4.642A8.967 8.967 0 0012 2.25z" /></svg>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 scroll-fade-in pt-16">
+                    <a href="#" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 sm:space-x-6">
+                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <h3 class="font-serif text-xl sm:text-2xl text-[#6D4C41]">Descargar Guión</h3>
+                            <p class="text-gray-600 text-sm sm:text-base">Lee el guión completo de la propuesta.</p>
+                        </div>
+                    </a>
+                     <a href="#" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 sm:space-x-6">
+                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                        <div>
+                            <h3 class="font-serif text-xl sm:text-2xl text-[#6D4C41]">Descargar Presentación</h3>
+                            <p class="text-gray-600 text-sm sm:text-base">Conoce a fondo nuestra propuesta.</p>
+                        </div>
+                    </a>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-[#6D4C41] text-[#FBF8F3] mt-16">
+        <div class="container mx-auto px-6 py-10 text-center font-light">
+            <p class="font-serif text-xl sm:text-2xl mb-3">ChocoTradición S.A.S</p>
+            <p class="text-sm sm:text-base">Manizales, Colombia</p>
+            <p class="text-sm sm:text-base">soporte@chocotradicion.com</p>
+            <p class="text-xs sm:text-sm mt-6 opacity-70">&copy; 2025 ChocoTradición. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const body = document.body;
+        const pages = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNav = document.querySelector('select');
+
+        // --- Premium Page Logic ---
+        const premiumBg = document.getElementById('premium-bg-image');
+        const premiumHeroSection = document.querySelector('#premium .full-screen-section');
+
+        const handlePremiumScroll = () => {
+            if (!premiumBg || !premiumHeroSection) return;
+            const heroHeight = premiumHeroSection.offsetHeight;
+            const scrollY = window.scrollY;
+            let opacity = 1 - (scrollY / (heroHeight * 0.7)); // Fade out faster
+            if (opacity < 0) opacity = 0;
+            if (opacity > 1) opacity = 1;
+            premiumBg.style.opacity = opacity;
+        };
+
+        function showPage(pageId, fromNav = true) {
+            // Manejo del tema oscuro y scroll listener
+            const isPremium = pageId === 'premium';
+            body.classList.toggle('dark-mode', isPremium);
+            
+            if (isPremium) {
+                window.addEventListener('scroll', handlePremiumScroll);
+            } else {
+                window.removeEventListener('scroll', handlePremiumScroll);
+            }
+
+            pages.forEach(page => page.classList.add('hidden'));
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+                const animatedElements = activePage.querySelectorAll('.scroll-fade-in');
+                animatedElements.forEach(el => {
+                    el.classList.remove('is-visible');
+                });
+                observeFadeInElements();
+            }
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.getAttribute('href').substring(1) === pageId) {
+                    link.classList.add('active-link');
+                }
+            });
+
+            if (mobileNav.value !== pageId) mobileNav.value = pageId;
+            if (fromNav) window.scrollTo(0, 0);
+             if (isPremium) handlePremiumScroll(); // Set initial state
+        }
+
+        // Observer for general fade-in animations
+        let fadeInObserver;
+        function observeFadeInElements() {
+            if(fadeInObserver) fadeInObserver.disconnect();
+            
+            fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const elements = document.querySelectorAll('.scroll-fade-in');
+            elements.forEach(el => fadeInObserver.observe(el));
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+             showPage('sobre-nosotros');
+        });
+
+        // --- AI Form Logic ---
+        const aiForm = document.getElementById('ai-chocolate-form');
+        const aiFormContainer = document.getElementById('ai-form-container');
+        const aiResultContainer = document.getElementById('ai-result-container');
+        const aiThinking = document.getElementById('ai-thinking');
+        const aiResult = document.getElementById('ai-result');
+        const thinkingText = document.getElementById('thinking-text');
+        
+        const thinkingMessages = [
+            "Analizando perfiles de sabor...",
+            "Calculando la textura perfecta...",
+            "Consultando a nuestros maestros chocolateros...",
+            "Generando un diseño único...",
+            "Casi listo para saborear..."
+        ];
+
+        if(aiForm) {
+            aiForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const base = document.getElementById('base').value;
+                const toppings = Array.from(document.querySelectorAll('input[name="topping"]:checked')).map(el => el.value);
+                const intensity = document.getElementById('intensity').value;
+                const sweetness = document.getElementById('sweetness').value;
+                const specs = document.getElementById('specs').value;
+                
+                aiFormContainer.classList.add('ai-fade-out');
+
+                setTimeout(() => {
+                    aiFormContainer.classList.add('hidden');
+                    aiResultContainer.classList.remove('hidden');
+                    aiThinking.classList.remove('hidden');
+                    aiThinking.classList.add('flex');
+                    aiResult.classList.add('hidden');
+                    
+                    let messageIndex = 0;
+                    const interval = setInterval(() => {
+                        thinkingText.textContent = thinkingMessages[messageIndex];
+                        messageIndex = (messageIndex + 1) % thinkingMessages.length;
+                    }, 1000);
+
+                    setTimeout(() => {
+                        clearInterval(interval);
+                        aiThinking.classList.add('hidden');
+                        aiThinking.classList.remove('flex');
+                        displayResults({ base, toppings, intensity, sweetness, specs });
+                        aiResult.classList.remove('hidden');
+                    }, 5000);
+
+                }, 500); // Match CSS transition duration
+            });
+        }
+        
+        // Sliders Real-time Value Update
+        const intensitySlider = document.getElementById('intensity');
+        const sweetnessSlider = document.getElementById('sweetness');
+        const textureSlider = document.getElementById('texture');
+        const textureLabels = ['Extra Cremosa', 'Cremosa', 'Equilibrada', 'Crujiente', 'Extra Crujiente'];
+
+        if(intensitySlider) {
+             intensitySlider.addEventListener('input', (e) => {
+                document.getElementById('intensity-value').textContent = e.target.value;
+            });
+        }
+        if(sweetnessSlider) {
+            sweetnessSlider.addEventListener('input', (e) => {
+                document.getElementById('sweetness-value').textContent = e.target.value;
+            });
+        }
+        if(textureSlider) {
+            textureSlider.addEventListener('input', (e) => {
+                document.getElementById('texture-value').textContent = textureLabels[e.target.value - 1];
+            });
+        }
+
+
+        function displayResults(data) {
+            const { base, toppings, intensity, sweetness, specs } = data;
+            const resultDetails = document.getElementById('result-details');
+            const resultImg = document.getElementById('result-img');
+
+            let html = `<p><strong class="font-semibold">Base:</strong> ${base}</p>`;
+            html += `<p><strong class="font-semibold">Intensidad:</strong> ${intensity}% Cacao</p>`;
+            html += `<p><strong class="font-semibold">Dulzura:</strong> Nivel ${sweetness}/10</p>`;
+            if (toppings.length > 0) {
+                html += `<p><strong class="font-semibold">Ingredientes:</strong> ${toppings.join(', ')}</p>`;
+            }
+             if (specs) {
+                html += `<p class="mt-2 pt-2 border-t border-white/10"><strong class="font-semibold">Tus Notas:</strong> "${specs}"</p>`;
+            }
+            html += `<p class="mt-4 pt-4 border-t border-white/20 text-sm text-gray-300">IA dice: "Una combinación audaz y equilibrada. ¡Excelente elección!"</p>`;
+            
+            resultDetails.innerHTML = html;
+            const placeholderText = encodeURIComponent(`Base: ${base.split(' ')[1]}\nToppings: ${toppings.length}`);
+            resultImg.src = `https://placehold.co/400x300/FBF8F3/4E342E?text=${placeholderText}`;
+        }
+        
+        function resetAI() {
+            aiResultContainer.classList.add('hidden');
+            aiResult.classList.add('hidden');
+            aiThinking.classList.add('hidden');
+
+            aiFormContainer.classList.remove('hidden', 'ai-fade-out');
+            if(aiForm) aiForm.reset();
+        }
+    </script>
+</body>
+</html>
+
