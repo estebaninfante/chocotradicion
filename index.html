@@ -20,15 +20,7 @@
         h1, h2, h3, h4, .font-serif {
             font-family: 'Playfair Display', serif;
         }
-        .active-link {
-            border-bottom: 2px solid #A0522D;
-            color: #A0522D;
-            font-weight: 600;
-        }
-        .nav-link {
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
+        
         .ai-thinking-dot {
             animation: bounce 1.4s infinite ease-in-out both;
         }
@@ -65,19 +57,19 @@
             background-color: #3E2723; /* Café Oscuro Sólido */
             color: #FBF8F3;
         }
-        .dark-mode header {
+        body.dark-mode header, .dark-mode #mobile-menu {
             background-color: #3E2723;
             box-shadow: 0 4px 6px -1px rgba(251, 248, 243, 0.1), 0 2px 4px -2px rgba(251, 248, 243, 0.1);
         }
         .dark-mode .text-\[\#6D4C41\] {
              color: #FBF8F3 !important;
         }
-        .dark-mode .nav-link {
+        .dark-mode .nav-link, .dark-mode .mobile-nav-link {
             color: #D7CCC8;
         }
-        .dark-mode .active-link {
-            color: #FBF8F3;
+         .dark-mode .active-link {
             border-bottom-color: #FBF8F3;
+            color: #FBF8F3;
         }
         .dark-mode .text-gray-600, .dark-mode .text-gray-700 {
             color: #D7CCC8;
@@ -94,6 +86,28 @@
         .dark-mode #premium-bg-image {
             transition: opacity 0.5s ease-out;
         }
+        .dark-mode #hamburger-icon path {
+            stroke: #FBF8F3;
+        }
+        .dark-mode .nav-button-primary {
+            background-color: #FBF8F3;
+            color: #3E2723;
+        }
+         .dark-mode .nav-button-secondary {
+            border-color: #FBF8F3;
+            color: #FBF8F3;
+        }
+        .dark-mode .nav-button-secondary:hover {
+            background-color: #FBF8F3;
+            color: #3E2723;
+        }
+        .dark-mode .nav-button-tertiary {
+            color: #D7CCC8;
+        }
+        .dark-mode .nav-button-tertiary:hover {
+            color: #FBF8F3;
+        }
+
 
         /* Custom Slider Styles */
         input[type=range] {
@@ -132,6 +146,32 @@
             opacity: 0;
             transform: scale(0.95);
         }
+        
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #A0522D;
+            transition: width 0.3s ease;
+        }
+        .dark-mode .nav-link::after {
+            background-color: #FBF8F3;
+        }
+        .nav-link:hover::after, .active-link::after {
+            width: 100%;
+        }
+
     </style>
 </head>
 <body class="bg-[#FBF8F3] text-[#4E342E]">
@@ -139,25 +179,33 @@
     <!-- Encabezado y Navegación -->
     <header class="bg-[#FBF8F3] sticky top-0 z-50 shadow-sm transition-colors duration-500">
         <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="text-xl sm:text-2xl font-bold font-serif text-[#6D4C41] cursor-pointer">
-                ChocoTradición
+            <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="cursor-pointer z-50">
+                <img src="https://i.ibb.co/Xkjw4K4D/full-logo.png" alt="ChocoTradición Logo" class="h-10">
             </a>
-            <div class="hidden lg:flex items-center space-x-8">
-                <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="nav-link active-link">Sobre Nosotros</a>
+             <div class="hidden lg:flex items-center space-x-8">
+                <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="nav-link">Sobre Nosotros</a>
                 <a href="#tradicional" onclick="showPage('tradicional')" class="nav-link">Línea Tradicional</a>
                 <a href="#premium" onclick="showPage('premium')" class="nav-link">Línea Premium y Artesanal</a>
                 <a href="#reto" onclick="showPage('reto')" class="nav-link">Solución al Reto</a>
             </div>
-            <div class="lg:hidden">
-                <select onchange="showPage(this.value)" class="bg-transparent border border-gray-300 rounded-md p-2 text-sm">
-                    <option value="sobre-nosotros">Sobre Nosotros</option>
-                    <option value="tradicional">Línea Tradicional</option>
-                    <option value="premium">Línea Premium y Artesanal</option>
-                    <option value="reto">Solución al Reto</option>
-                </select>
+            <div class="lg:hidden z-50">
+                 <button id="hamburger-button" class="p-2">
+                    <svg id="hamburger-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6D4C41">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                 </button>
             </div>
         </nav>
     </header>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-[#FBF8F3] z-40 flex flex-col items-center justify-center space-y-8">
+        <a href="#sobre-nosotros" class="mobile-nav-link text-3xl font-serif">Sobre Nosotros</a>
+        <a href="#tradicional" class="mobile-nav-link text-3xl font-serif">Línea Tradicional</a>
+        <a href="#premium" class="mobile-nav-link text-3xl font-serif">Línea Premium y Artesanal</a>
+        <a href="#reto" class="mobile-nav-link text-3xl font-serif">Solución al Reto</a>
+    </div>
+
 
     <main class="container mx-auto">
         <!-- PÁGINA 0: SOBRE NOSOTROS (Landing Page Principal) -->
@@ -165,24 +213,28 @@
              <section class="full-screen-section text-center px-4">
                 <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">Más que Chocolate, una Herencia</h1>
                 <p class="max-w-3xl mx-auto text-lg sm:text-xl text-gray-600 mb-8 scroll-fade-in" style="transition-delay: 200ms;">
-                    Desde 1950, en el corazón de Manizales, Colombia, ChocoTradición ha sido el guardián de un legado familiar: transformar el mejor cacao del mundo en experiencias inolvidables.
+                    Desde 1950, en el corazón de Manizales, Colombia, ChocoTradición ha sido el guardián de un legado familiar.
                 </p>
+                <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 scroll-fade-in items-center" style="transition-delay: 400ms;">
+                    <a href="#tradicional" onclick="showPage('tradicional')" class="nav-button-primary bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Línea Tradicional</a>
+                    <a href="#premium" onclick="showPage('premium')" class="nav-button-secondary bg-transparent border-2 border-[#A0522D] text-[#A0522D] py-3 px-8 rounded-full font-semibold hover:bg-[#A0522D] hover:text-white transition-colors text-lg">Línea Premium</a>
+                    <a href="#reto" onclick="showPage('reto')" class="nav-button-tertiary text-gray-600 hover:text-[#6D4C41] font-medium transition-colors">Nuestra Solución al Reto &rarr;</a>
+                </div>
             </section>
 
             <section class="py-16 sm:py-24 grid md:grid-cols-2 gap-8 md:gap-16 items-center px-4 sm:px-6">
                 <div class="space-y-6 scroll-fade-in">
                     <h2 class="text-3xl sm:text-4xl font-serif text-[#6D4C41]">Nuestra Trayectoria</h2>
                     <p class="text-gray-700 text-base sm:text-lg">Lo que comenzó como un pequeño sueño en la cocina de nuestros abuelos, se ha convertido en una empresa que celebra la riqueza de nuestra tierra. Hemos crecido, pero nuestra esencia permanece intacta: el amor por el proceso artesanal y el compromiso con la calidad.</p>
-                    <p class="text-gray-700 text-base sm:text-lg">Hoy, combinamos esa herencia con la innovación, explorando nuevas técnicas y sabores para sorprender a una nueva generación de amantes del chocolate, sin olvidar jamás las recetas que nos trajeron hasta aquí.</p>
                 </div>
                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 scroll-fade-in" style="transition-delay: 200ms;">
                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                         <h3 class="font-serif text-2xl sm:text-3xl text-[#A0522D] mb-3">Misión</h3>
-                        <p class="text-gray-600 text-sm sm:text-base">Crear chocolates excepcionales que conecten a las personas con la riqueza del cacao colombiano, honrando nuestra tradición artesanal y promoviendo un futuro sostenible.</p>
+                        <p class="text-gray-600 text-sm sm:text-base">Crear chocolates excepcionales que conecten a las personas con la riqueza del cacao colombiano.</p>
                     </div>
                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                         <h3 class="font-serif text-2xl sm:text-3xl text-[#A0522D] mb-3">Visión</h3>
-                        <p class="text-gray-600 text-sm sm:text-base">Ser reconocidos a nivel mundial como un símbolo de la chocolatería colombiana, fusionando la herencia artesanal con la innovación.</p>
+                        <p class="text-gray-600 text-sm sm:text-base">Ser reconocidos a nivel mundial como un símbolo de la chocolatería colombiana de autor.</p>
                     </div>
                 </div>
             </section>
@@ -192,27 +244,31 @@
                     <img src="https://solidaridadlatam.org/wp-content/uploads/2023/07/Inventario-Ingreso-Digno-Cacao-en-Latam.-Plan-Cacao-Nestle-Ecuador.jpg" alt="Relación con agricultores" class="w-full h-auto object-cover rounded-lg shadow-xl">
                 </div>
                 <div class="space-y-6 scroll-fade-in" style="transition-delay: 200ms;">
-                     <h2 class="text-3xl sm:text-4xl font-serif text-[#6D4C41]">Del Cacao al Corazón: Nuestra Alianza con los Agricultores</h2>
-                    <p class="text-gray-700 text-base sm:text-lg">Nuestra historia no se puede contar sin hablar de las manos que cultivan nuestro tesoro más preciado. Cada grano de cacao que utilizamos es fruto del trabajo de agricultores locales, con quienes hemos forjado lazos de confianza, respeto y comercio justo a lo largo de generaciones.</p>
-                    <p class="text-gray-700 text-base sm:text-lg">Esta alianza va más allá de lo comercial; es un compromiso con la sostenibilidad, con la preservación de técnicas agrícolas ancestrales y con el bienestar de las comunidades que hacen posible la magia de ChocoTradición.</p>
+                     <h2 class="text-3xl sm:text-4xl font-serif text-[#6D4C41]">Del Cacao al Corazón</h2>
+                    <p class="text-gray-700 text-base sm:text-lg">Nuestra historia no se puede contar sin hablar de las manos que cultivan nuestro tesoro más preciado. Cada grano de cacao que utilizamos es fruto del trabajo de agricultores locales, con quienes hemos forjado lazos de confianza y respeto.</p>
                 </div>
             </section>
         </div>
 
         <!-- PÁGINA 1: LÍNEA TRADICIONAL -->
-        <div id="tradicional" class="page-content hidden px-4 sm:px-6 py-12">
-            <section class="text-center py-12 sm:py-16">
-                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">El Sabor que nos Une</h1>
-                <p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-600 scroll-fade-in" style="transition-delay: 200ms;">
-                    Nuestra línea tradicional combina recetas heredadas con ingredientes de la más alta calidad, creando chocolates que evocan recuerdos y construyen nuevos momentos.
+        <div id="tradicional" class="page-content hidden">
+            <section class="full-screen-section text-center px-4">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">El Sabor que nos Une</h1>
+                <p class="max-w-3xl mx-auto text-lg sm:text-xl text-gray-600 mb-8 scroll-fade-in" style="transition-delay: 200ms;">
+                    Nuestra línea tradicional combina recetas heredadas con ingredientes de la más alta calidad.
                 </p>
+                 <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 scroll-fade-in items-center" style="transition-delay: 400ms;">
+                    <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="nav-button-tertiary text-gray-600 hover:text-[#6D4C41] font-medium transition-colors">&larr; Sobre Nosotros</a>
+                    <a href="#premium" onclick="showPage('premium')" class="nav-button-primary bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Explorar Línea Premium</a>
+                    <a href="#reto" onclick="showPage('reto')" class="nav-button-tertiary text-gray-600 hover:text-[#6D4C41] font-medium transition-colors">Solución al Reto &rarr;</a>
+                </div>
             </section>
 
-            <section class="py-16 space-y-16 sm:space-y-24">
+            <section class="py-16 space-y-16 sm:space-y-24 px-4 sm:px-6">
                  <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
                     <div class="scroll-fade-in text-center md:text-left">
                         <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Clásico de la Finca</h2>
-                        <p class="text-gray-600 text-lg sm:text-xl mb-8">Puro cacao al 70% con notas frutales. La esencia de nuestro origen en una tableta intensa y memorable que captura el alma de los Andes colombianos.</p>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-8">Puro cacao al 70% con notas frutales. La esencia de nuestro origen en una tableta intensa y memorable.</p>
                         <button class="bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Más Información</button>
                     </div>
                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center hover:shadow-2xl transition-shadow duration-300 scroll-fade-in" style="transition-delay: 100ms;">
@@ -226,18 +282,8 @@
                     </div>
                     <div class="scroll-fade-in md:order-1 text-center md:text-left" style="transition-delay: 100ms;">
                         <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Tesoro de Leche</h2>
-                        <p class="text-gray-600 text-lg sm:text-xl mb-8">Un chocolate con leche increíblemente cremoso y suave. El abrazo perfecto para una tarde de café y buenos recuerdos.</p>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-8">Un chocolate con leche increíblemente cremoso y suave. El abrazo perfecto para una tarde de café.</p>
                         <button class="bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Más Información</button>
-                    </div>
-                </div>
-                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
-                    <div class="scroll-fade-in text-center md:text-left">
-                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Nibs de Café de Origen</h2>
-                        <p class="text-gray-600 text-lg sm:text-xl mb-8">La combinación perfecta entre el chocolate oscuro y el crujiente café de Manizales. Una explosión de sabor y energía.</p>
-                        <button class="bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Más Información</button>
-                    </div>
-                    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center hover:shadow-2xl transition-shadow duration-300 scroll-fade-in" style="transition-delay: 100ms;">
-                        <img src="https://placehold.co/500x350/6D4C41/FFFFFF?text=Nibs+de+Café" alt="Nibs de Café de Origen" class="mx-auto rounded-lg">
                     </div>
                 </div>
             </section>
@@ -256,8 +302,8 @@
                         Un tributo a la creatividad y al cacao más fino. Aquí, la maestría artesanal y la innovación se unen para crear joyas de chocolate únicas.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="#premium-products" class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Mirar Productos</a>
-                        <a href="#ai-creator" class="bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-semibold hover:bg-white hover:text-black transition-colors text-base sm:text-lg">Crear mi Chocolate</a>
+                        <a href="#premium-products" class="nav-button-primary bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Mirar Productos</a>
+                        <a href="#ai-creator" class="nav-button-secondary bg-transparent border-2 border-white text-white py-3 px-8 rounded-full font-semibold hover:bg-white hover:text-black transition-colors text-base sm:text-lg">Crear mi Chocolate</a>
                     </div>
                 </section>
 
@@ -267,20 +313,6 @@
                             <h2 class="text-4xl sm:text-5xl font-serif mb-6">Lingote Dorado</h2>
                             <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto mb-8">Chocolate blanco caramelizado con hebras de azafrán y un toque de sal Maldon. Una joya para los sentidos.</p>
                             <button class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Conocer Más</button>
-                        </div>
-                    </div>
-                    <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
-                        <div class="w-full max-w-5xl mx-auto text-center">
-                            <h2 class="text-4xl sm:text-5xl font-serif mb-6">Corazón de Rubí</h2>
-                            <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto mb-8">Ganache sedosa de lulo y maracuyá, cubierta por el exótico chocolate Ruby al 47%. Pura pasión tropical.</p>
-                             <button class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Conocer Más</button>
-                        </div>
-                    </div>
-                    <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
-                        <div class="w-full max-w-5xl mx-auto text-center">
-                            <h2 class="text-4xl sm:text-5xl font-serif mb-6">Esfera Volcánica</h2>
-                            <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto mb-8">Intenso chocolate negro al 85% de origen único, con una sutil infusión de chile y cardamomo. Atrevido y sofisticado.</p>
-                             <button class="bg-white/90 text-black py-3 px-8 rounded-full font-semibold hover:bg-white transition-colors text-base sm:text-lg">Conocer Más</button>
                         </div>
                     </div>
                 </div>
@@ -295,43 +327,16 @@
                                         <label for="base" class="block text-sm font-medium text-gray-300 mb-2">1. Elige la base:</label>
                                         <select id="base" class="w-full p-3 bg-white/10 text-white border border-white/30 rounded-md focus:ring-white focus:border-white">
                                             <option>Chocolate Negro 85% Origen Único</option>
-                                            <option>Chocolate con Leche de Almendras</option>
-                                            <option>Chocolate Blanco con Vainilla de Papantla</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label for="intensity" class="block text-sm font-medium text-gray-300 mb-2">Intensidad de Cacao: <span id="intensity-value">75</span>%</label>
                                         <input type="range" id="intensity" min="50" max="100" value="75" class="w-full h-2 rounded-lg appearance-none cursor-pointer">
                                     </div>
-                                    <div>
-                                        <label for="sweetness" class="block text-sm font-medium text-gray-300 mb-2">Nivel de Dulzura: <span id="sweetness-value">5</span>/10</label>
-                                        <input type="range" id="sweetness" min="1" max="10" value="5" class="w-full h-2 rounded-lg appearance-none cursor-pointer">
-                                    </div>
-                                     <div>
-                                        <label for="texture" class="block text-sm font-medium text-gray-300 mb-2">Textura: <span id="texture-value">Equilibrada</span></label>
-                                        <input type="range" id="texture" min="1" max="5" value="3" class="w-full h-2 rounded-lg appearance-none cursor-pointer">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-300 mb-2">2. Selecciona hasta dos ingredientes:</label>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
-                                            <input type="checkbox" name="topping" value="Pistachos Tostados" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Pistachos</span>
-                                        </label>
-                                         <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
-                                            <input type="checkbox" name="topping" value="Sal Rosa del Himalaya" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Sal Rosa</span>
-                                        </label>
-                                         <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
-                                            <input type="checkbox" name="topping" value="Nibs de Cacao Garapiñados" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Nibs de Cacao</span>
-                                        </label>
-                                         <label class="flex items-center space-x-3 p-3 border border-white/30 rounded-md has-[:checked]:bg-white has-[:checked]:text-black transition-colors cursor-pointer">
-                                            <input type="checkbox" name="topping" value="Pétalos de Rosa Cristalizados" class="form-checkbox bg-transparent border-white/30 text-white focus:ring-white"> <span>Pétalos de Rosa</span>
-                                        </label>
-                                    </div>
                                 </div>
                                  <div>
                                     <label for="specs" class="block text-sm font-medium text-gray-300 mb-2">3. Describe tu chocolate ideal (opcional):</label>
-                                    <textarea id="specs" rows="3" class="w-full p-3 bg-white/10 text-white border border-white/30 rounded-md focus:ring-white focus:border-white" placeholder="Ej: 'Quiero que sea picante, con un toque cítrico y muy crujiente'"></textarea>
+                                    <textarea id="specs" rows="3" class="w-full p-3 bg-white/10 text-white border border-white/30 rounded-md focus:ring-white focus:border-white" placeholder="Ej: 'Quiero que sea picante...'"></textarea>
                                 </div>
                                 <button type="submit" class="w-full bg-white text-black py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-200 transition-colors text-base sm:text-lg">
                                     Crear con IA
@@ -342,8 +347,6 @@
                            <div id="ai-thinking" class="hidden flex-col items-center justify-center space-y-4">
                                 <p class="text-xl" id="thinking-text">Nuestra IA está diseñando tu obra maestra...</p>
                                 <div class="flex space-x-2 mt-4">
-                                    <div class="w-4 h-4 bg-[#FBF8F3] rounded-full ai-thinking-dot"></div>
-                                    <div class="w-4 h-4 bg-[#FBF8F3] rounded-full ai-thinking-dot"></div>
                                     <div class="w-4 h-4 bg-[#FBF8F3] rounded-full ai-thinking-dot"></div>
                                 </div>
                             </div>
@@ -363,44 +366,51 @@
         </div>
 
         <!-- PÁGINA 3: SOLUCIÓN AL RETO -->
-        <div id="reto" class="page-content hidden px-4 sm:px-6 py-12">
-            <section class="text-center py-12 sm:py-16">
-                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">Renovación ChocoTradición</h1>
-                <p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-600 scroll-fade-in" style="transition-delay: 200ms;">
-                    Una propuesta de intraemprendimiento para transformar nuestro modelo de negocio, adaptándonos a la Industria 4.0 y a las nuevas demandas del mercado.
+        <div id="reto" class="page-content hidden">
+            <section class="full-screen-section text-center px-4">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-[#6D4C41] mb-4 scroll-fade-in">Renovación ChocoTradición</h1>
+                <p class="max-w-3xl mx-auto text-lg sm:text-xl text-gray-600 mb-8 scroll-fade-in" style="transition-delay: 200ms;">
+                    Una propuesta de intraemprendimiento para transformar nuestro modelo de negocio, adaptándonos a la Industria 4.0.
                 </p>
+                 <div class="mt-8 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 scroll-fade-in items-center" style="transition-delay: 400ms;">
+                    <a href="#sobre-nosotros" onclick="showPage('sobre-nosotros')" class="nav-button-tertiary text-gray-600 hover:text-[#6D4C41] font-medium transition-colors">&larr; Sobre Nosotros</a>
+                    <a href="#tradicional" onclick="showPage('tradicional')" class="nav-button-primary bg-[#A0522D] text-white py-3 px-8 rounded-full font-semibold hover:bg-[#8B4513] transition-colors text-lg">Ver Línea Tradicional</a>
+                    <a href="#premium" onclick="showPage('premium')" class="nav-button-secondary bg-transparent border-2 border-[#A0522D] text-[#A0522D] py-3 px-8 rounded-full font-semibold hover:bg-[#A0522D] hover:text-white transition-colors text-lg">Ver Línea Premium</a>
+                </div>
             </section>
             
-            <section class="max-w-5xl mx-auto space-y-16 sm:space-y-24 py-16">
+            <section class="max-w-5xl mx-auto space-y-16 sm:space-y-24 py-16 px-4 sm:px-6">
                  <div id="desafio" class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
                     <div class="scroll-fade-in text-center md:text-left">
-                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">El Desafío y Nuestra Propuesta</h2>
-                        <p class="text-gray-600 text-lg sm:text-xl mb-4"><strong class="font-semibold text-[#6D4C41]">Contexto:</strong> Ante la Industria 4.0, la presión competitiva y un consumidor cambiante, la renovación es una necesidad.</p>
-                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Estrategia:</strong> Bifurcamos nuestra línea en <span class="font-bold">consumo masivo</span> para competir en costo, y una <span class="font-bold">línea Premium artesanal</span> que capitaliza nuestra herencia y calidad.</p>
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">El Desafío: Industria 4.0</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Estrategia Dual:</strong> Transformamos nuestra línea tradicional en dos nuevas direcciones: una de <span class="font-semibold">consumo masivo</span>, para competir en eficiencia, y una <span class="font-semibold">Línea Premium Artesanal</span>, para capitalizar nuestra herencia y exclusividad.</p>
                     </div>
                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in flex items-center justify-center h-48 sm:h-64" style="transition-delay: 100ms;">
                         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
                     </div>
                 </div>
 
-                <div id="produccion" class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
-                    <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in md:order-2 flex items-center justify-center h-48 sm:h-64">
-                         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V18m0-15V5.25c0-1.104.896-2 2-2h3.375c1.104 0 2 .896 2 2V18m0-15.75l-3.75-1.5L8.25 3zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in flex items-center justify-center h-48 sm:h-64 md:order-2" style="transition-delay: 100ms;">
+                        <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V18m0-15V5.25c0-1.104.896-2 2-2h3.375c1.104 0 2 .896 2 2V18m0-15.75l-3.75-1.5L8.25 3zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
-                    <div class="scroll-fade-in md:order-1 text-center md:text-left" style="transition-delay: 100ms;">
-                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Producción Inteligente</h2>
-                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Machine Learning:</strong> Usamos <span class="font-bold">Visual Inspection AI</span> para control de calidad y <span class="font-bold">sensores IoT</span> para mantenimiento predictivo, potenciando el talento de nuestros artesanos.</p>
+                    <div class="scroll-fade-in text-center md:text-left md:order-1">
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Producción Inteligente con IA</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl mb-4"><strong class="font-semibold text-[#6D4C41]">Visión Computacional:</strong> Usamos <span class="font-semibold">Visual Inspection AI de Google Cloud</span> para identificar defectos en tiempo real, asegurando la máxima calidad.</p>
+                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Mantenimiento Predictivo:</strong> Con <span class="font-semibold">sensores IoT</span>, anticipamos fallos en la maquinaria, garantizando una producción constante y sin interrupciones.</p>
                     </div>
                 </div>
-                 <div id="experiencia" class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
+
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[60vh]">
                     <div class="scroll-fade-in text-center md:text-left">
-                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Experiencia del Cliente</h2>
-                        <p class="text-gray-600 text-lg sm:text-xl"><strong class="font-semibold text-[#6D4C41]">Interacción y Personalización:</strong> Esta web es nuestra ventana al mundo, permitiendo a los clientes co-crear su chocolate. Transformamos tiendas en espacios de "Experience Retailing".</p>
+                        <h2 class="text-4xl sm:text-5xl font-serif text-[#6D4C41] mb-6">Modelo de Producción Híbrida</h2>
+                        <p class="text-gray-600 text-lg sm:text-xl">Integramos lo mejor de dos mundos: la línea artesanal se beneficia de la eficiencia de la producción industrial para potenciar su productividad, pero conservando los procesos manuales que le otorgan su carácter único y exclusivo. Esto nos permite optimizar costos sin sacrificar el alma de nuestro chocolate.</p>
                     </div>
                     <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300 scroll-fade-in flex items-center justify-center h-48 sm:h-64" style="transition-delay: 100ms;">
                         <svg class="w-20 h-20 sm:w-24 sm:h-24 text-[#A0522D]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25a8.967 8.967 0 00-6.313 2.659c-1.226 1.226-1.912 2.878-1.912 4.642 0 3.516 4.761 6.862 6.313 8.418 1.552-1.556 6.313-4.902 6.313-8.418 0-1.764-.686-3.416-1.912-4.642A8.967 8.967 0 0012 2.25z" /></svg>
                     </div>
                 </div>
+
 
                 <div class="grid md:grid-cols-2 gap-8 scroll-fade-in pt-16">
                     <a href="#" class="bg-white p-6 sm:p-8 rounded-lg shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center space-x-4 sm:space-x-6">
@@ -439,8 +449,24 @@
     <script>
         const body = document.body;
         const pages = document.querySelectorAll('.page-content');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const mobileNav = document.querySelector('select');
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        // --- Mobile Menu Logic ---
+        hamburgerButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('href').substring(1);
+                showPage(pageId);
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
 
         // --- Premium Page Logic ---
         const premiumBg = document.getElementById('premium-bg-image');
@@ -478,14 +504,6 @@
                 observeFadeInElements();
             }
             
-            navLinks.forEach(link => {
-                link.classList.remove('active-link');
-                if (link.getAttribute('href').substring(1) === pageId) {
-                    link.classList.add('active-link');
-                }
-            });
-
-            if (mobileNav.value !== pageId) mobileNav.value = pageId;
             if (fromNav) window.scrollTo(0, 0);
              if (isPremium) handlePremiumScroll(); // Set initial state
         }
@@ -532,9 +550,7 @@
                 e.preventDefault();
                 
                 const base = document.getElementById('base').value;
-                const toppings = Array.from(document.querySelectorAll('input[name="topping"]:checked')).map(el => el.value);
                 const intensity = document.getElementById('intensity').value;
-                const sweetness = document.getElementById('sweetness').value;
                 const specs = document.getElementById('specs').value;
                 
                 aiFormContainer.classList.add('ai-fade-out');
@@ -556,7 +572,7 @@
                         clearInterval(interval);
                         aiThinking.classList.add('hidden');
                         aiThinking.classList.remove('flex');
-                        displayResults({ base, toppings, intensity, sweetness, specs });
+                        displayResults({ base, intensity, specs });
                         aiResult.classList.remove('hidden');
                     }, 5000);
 
@@ -566,45 +582,29 @@
         
         // Sliders Real-time Value Update
         const intensitySlider = document.getElementById('intensity');
-        const sweetnessSlider = document.getElementById('sweetness');
-        const textureSlider = document.getElementById('texture');
-        const textureLabels = ['Extra Cremosa', 'Cremosa', 'Equilibrada', 'Crujiente', 'Extra Crujiente'];
 
         if(intensitySlider) {
              intensitySlider.addEventListener('input', (e) => {
                 document.getElementById('intensity-value').textContent = e.target.value;
             });
         }
-        if(sweetnessSlider) {
-            sweetnessSlider.addEventListener('input', (e) => {
-                document.getElementById('sweetness-value').textContent = e.target.value;
-            });
-        }
-        if(textureSlider) {
-            textureSlider.addEventListener('input', (e) => {
-                document.getElementById('texture-value').textContent = textureLabels[e.target.value - 1];
-            });
-        }
 
 
         function displayResults(data) {
-            const { base, toppings, intensity, sweetness, specs } = data;
+            const { base, intensity, specs } = data;
             const resultDetails = document.getElementById('result-details');
             const resultImg = document.getElementById('result-img');
 
             let html = `<p><strong class="font-semibold">Base:</strong> ${base}</p>`;
             html += `<p><strong class="font-semibold">Intensidad:</strong> ${intensity}% Cacao</p>`;
-            html += `<p><strong class="font-semibold">Dulzura:</strong> Nivel ${sweetness}/10</p>`;
-            if (toppings.length > 0) {
-                html += `<p><strong class="font-semibold">Ingredientes:</strong> ${toppings.join(', ')}</p>`;
-            }
+            
              if (specs) {
                 html += `<p class="mt-2 pt-2 border-t border-white/10"><strong class="font-semibold">Tus Notas:</strong> "${specs}"</p>`;
             }
             html += `<p class="mt-4 pt-4 border-t border-white/20 text-sm text-gray-300">IA dice: "Una combinación audaz y equilibrada. ¡Excelente elección!"</p>`;
             
             resultDetails.innerHTML = html;
-            const placeholderText = encodeURIComponent(`Base: ${base.split(' ')[1]}\nToppings: ${toppings.length}`);
+            const placeholderText = encodeURIComponent(`Base: ${base.split(' ')[1]}`);
             resultImg.src = `https://placehold.co/400x300/FBF8F3/4E342E?text=${placeholderText}`;
         }
         
